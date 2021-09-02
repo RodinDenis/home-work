@@ -30,4 +30,26 @@ class CalculatorTest {
     void classHasSevenMethods(){
         assertEquals(7,Calculator.class.getMethods().length-Object.class.getMethods().length);
     }
+
+    @Test
+    void getSquare() {assertEquals(81, Calculator.getSquare(9)); }
+
+    @Test
+    void getReverseSign() {assertEquals(-9, Calculator.getReverseSign(9)); }
+
+    @Test
+    void getReverseSign2() {assertEquals(9, Calculator.getReverseSign(-9)); }
+
+    @Test
+    void getReverseSign3() {assertEquals(0, Calculator.getReverseSign(0)); }
+
+    @Test
+    void getAbs() {assertEquals(9, Calculator.getAbs(9)); }
+
+    @Test
+    void getAbs2() {assertEquals(9, Calculator.getAbs(-9)); }
+
+    @Test
+    void getAbs3() {assertEquals(0, Calculator.getAbs(0)); }
+
 }

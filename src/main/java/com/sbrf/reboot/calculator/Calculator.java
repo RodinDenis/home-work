@@ -17,15 +17,16 @@ public class Calculator {
         return i / i1;
     }
 
-    public static int meth5(int i, int i1) {
-        return i / i1;
+
+    public static int getSquare(int i) {
+        return i * i;
     }
 
-    public static int meth6(int i, int i1) {
-        return i / i1;
+    public static int getReverseSign(int i) {
+        return -i;
     }
 
-    public static int meth7(int i, int i1) {
-        return i / i1;
+    public static int getAbs(int i) {
+        return Math.abs(i);
     }
 }
