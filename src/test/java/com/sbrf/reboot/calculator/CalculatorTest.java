@@ -46,4 +46,5 @@ class CalculatorTest {
     void classHasSevenMethods(){
        assertEquals(7,Calculator.class.getMethods().length-Object.class.getMethods().length);
     }
+
 }
