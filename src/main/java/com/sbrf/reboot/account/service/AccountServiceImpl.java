@@ -42,4 +42,14 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Account account) {
         accountRepository.deleteAccount(account);
     }
+
+    /**
+     * Подсчет количества аккаунтов с незаполненными данными по клиенту
+     * @return количество аккаунтов с незаполненными данными по клиенту
+     */
+    public int countEmptyAccounts() {
+        int count = accountRepository.getAllAccountsByClientId(null).size();
+        return count;
+    }
+
 }

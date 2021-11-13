@@ -8,4 +8,5 @@ public interface AccountService {
     Account createAccount(Long clientId);
     void deleteAccount(Account account);
     boolean isAccountExist(Long id, Account account) ;
+    int countEmptyAccounts();
 }
