@@ -3,8 +3,7 @@ package com.sbrf.reboot.account.repository;
 import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.utils.JsonParser;
 
-import java.io.BufferedInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository{
@@ -30,10 +29,12 @@ public class AccountRepositoryImpl implements AccountRepository{
     public AccountRepositoryImpl(String path) throws FileNotFoundException {
         clientAccounts = new HashMap<>();
         sequenceId = 0;
-        try(BufferedInputStream bufferedInputStream = new BufferedInputStream()) {
+        try(InputStream inputStream = new FileInputStream(new File(path));
+            BufferedInputStream bufferedInputStream  = new BufferedInputStream(inputStream)) {
             /* читаем файл в массив строк*/
             List<String> readStrings = new ArrayList<>();
-
+            Byte [] bytes = new Byte[1024];
+            /*int i = bufferedInputStream.readAllBytes(bytes);*/
             /* передаем набор строк на парсинг */
             HashMap<Integer,Set<String>> parsedData = JsonParser.parseAccount(readStrings);
 
@@ -47,8 +48,9 @@ public class AccountRepositoryImpl implements AccountRepository{
         catch (FileNotFoundException e) {
             System.out.println("FILE DOESN'T EXIST!");
             throw e;
-        }
-        finally {
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
             sequenceId = clientAccounts.size();
         }
     }
