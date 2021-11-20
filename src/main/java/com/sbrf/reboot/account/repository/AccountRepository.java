@@ -4,17 +4,13 @@ import com.sbrf.reboot.account.entity.Account;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 public class AccountRepository {
     /**
-     * Список существующих аккаунтов
-     */
-    private HashSet<Account> accounts;
-
-    /**
      * Карта существующих аккаунтов по клиентам
      */
-    private HashMap<Long,HashSet> clientAccounts;
+    private HashMap<Long, HashSet> clientAccounts;
     /**
      * Сиквенс для идентификаторов (так как предполягается удаление, не могу считать размер множества для получения нового Id
      * + подсчет размера может оказать влияние на производительность, если аккаунтов будет много)
@@ -22,7 +18,6 @@ public class AccountRepository {
     private int sequenceId;
 
     public AccountRepository () {
-        accounts = new HashSet<>();
         clientAccounts = new HashMap<>();
         sequenceId = 0;
     }
@@ -37,8 +32,7 @@ public class AccountRepository {
      * @return набор аккаунтов клиента
      */
     public HashSet<Account> getAllAccountsByClientId (Long clientId) {
-        HashSet<Account> foundAccounts = clientAccounts.get(clientId);
-        return foundAccounts;
+        return clientAccounts.get(clientId);
     }
     /**
      * Создание аккаунта
@@ -47,7 +41,6 @@ public class AccountRepository {
     public Account newAccount(Long clientId) {
         Account account = new Account((String.valueOf(this.nextVal())));
         account.setClientId(clientId);
-        accounts.add(account);
         if(clientAccounts.containsKey(clientId)) {
             clientAccounts.get(clientId).add(account);
         }
@@ -65,6 +58,5 @@ public class AccountRepository {
     public void deleteAccount(Account account) {
         Long clientId = account.getClientId();
         clientAccounts.get(clientId).remove(account);
-        accounts.remove(account);
     }
 }
