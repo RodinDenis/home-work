@@ -2,6 +2,7 @@ package com.sbrf.reboot.account.repository;
 
 import com.sbrf.reboot.account.entity.Account;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 public class AccountRepository {
@@ -9,6 +10,11 @@ public class AccountRepository {
      * Список существующих аккаунтов
      */
     private HashSet<Account> accounts;
+
+    /**
+     * Карта существующих аккаунтов по клиентам
+     */
+    private HashMap<Long,HashSet> clientAccounts;
     /**
      * Сиквенс для идентификаторов (так как предполягается удаление, не могу считать размер множества для получения нового Id
      * + подсчет размера может оказать влияние на производительность, если аккаунтов будет много)
@@ -17,6 +23,7 @@ public class AccountRepository {
 
     public AccountRepository () {
         accounts = new HashSet<>();
+        clientAccounts = new HashMap<>();
         sequenceId = 0;
     }
 
@@ -30,12 +37,7 @@ public class AccountRepository {
      * @return набор аккаунтов клиента
      */
     public HashSet<Account> getAllAccountsByClientId (Long clientId) {
-        HashSet<Account> foundAccounts = new HashSet<>();
-        for(Account account : accounts) {
-            if (account.getClientId().equals(clientId)) {
-                foundAccounts.add(account);
-            }
-        }
+        HashSet<Account> foundAccounts = clientAccounts.get(clientId);
         return foundAccounts;
     }
     /**
@@ -46,6 +48,14 @@ public class AccountRepository {
         Account account = new Account((String.valueOf(this.nextVal())));
         account.setClientId(clientId);
         accounts.add(account);
+        if(clientAccounts.containsKey(clientId)) {
+            clientAccounts.get(clientId).add(account);
+        }
+        else {
+            HashSet<Account> newClientAccounts = new HashSet<>();
+            newClientAccounts.add(account);
+            clientAccounts.put(clientId,newClientAccounts);
+        }
         return account;
     }
     /**
@@ -53,6 +63,8 @@ public class AccountRepository {
      * @param account аккаунт для удаления
      */
     public void deleteAccount(Account account) {
+        Long clientId = account.getClientId();
+        clientAccounts.get(clientId).remove(account);
         accounts.remove(account);
     }
 }
