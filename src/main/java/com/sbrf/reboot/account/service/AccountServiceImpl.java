@@ -17,9 +17,8 @@ public class AccountServiceImpl implements AccountService {
      */
     public boolean isAccountExist(Long id, Account account) {
         HashSet<Account> clientAccounts = accountRepository.getAllAccountsByClientId(id);
-        if(clientAccounts.contains(account)) {
+        if(clientAccounts.contains(account))
             return true;
-        }
         else
             return false;
     }
