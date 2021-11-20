@@ -28,8 +28,7 @@ public class AccountServiceImpl implements AccountService {
      * @param clientId идентификатор клиента
      */
     public Account createAccount(Long clientId) {
-        Account newAccount = accountRepository.newAccount(clientId);
-        return newAccount;
+        return accountRepository.newAccount(clientId);
     }
 
     /**
