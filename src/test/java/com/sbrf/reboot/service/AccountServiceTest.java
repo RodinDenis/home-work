@@ -23,55 +23,54 @@ class AccountServiceTest {
 
     AccountService accountService;
 
+    private final static String ACCOUNT_ID = "ACC1234NUM";
+    private final static Long CLIENT_ID = 1L;
+
+    Account account;
+    HashSet<Account> accounts;
+
     @BeforeEach
     void setUp() {
-        accountRepository = Mockito.mock(AccountRepository.class);
-
         accountService = new AccountServiceImpl(accountRepository);
+        account = new Account(ACCOUNT_ID);
+        accounts = new HashSet();
+        accounts.add(account);
     }
 
     @Test
     void bookExist() {
-        Account account = new Account("ACC1234NUM");
-        HashSet<Account> accounts = new HashSet();
-        accounts.add(account);
 
-        when(accountRepository.getAllAccountsByClientId(1L)).thenReturn(accounts);
+        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
 
-        assertTrue(accountService.isAccountExist(1L, account));
+        assertTrue(accountService.isAccountExist(CLIENT_ID, account));
     }
 
     @Test
     void bookNotExist() {
-        HashSet<Account> accounts = new HashSet();
-        accounts.add(new Account("ACC1234NUM"));
 
-        when(accountRepository.getAllAccountsByClientId(1L)).thenReturn(accounts);
+        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
 
-        assertFalse(accountService.isAccountExist(1L, new Account("ACC456NUM")));
+        assertFalse(accountService.isAccountExist(CLIENT_ID, new Account("NEW_RANDOM_ACCOUNT")));
     }
 
     @Test
     void testCreateAccount () {
-        Account account = accountService.createAccount(123L);
-        assertTrue(accountService.isAccountExist(123L,account));
+        Account account = accountService.createAccount(CLIENT_ID);
+        assertTrue(accountService.isAccountExist(CLIENT_ID,account));
     }
 
     @Test
     void testDeleteAccount () {
-        Account account = accountService.createAccount(123L);
+        Account account = accountService.createAccount(CLIENT_ID);
         accountService.deleteAccount(account);
-        assertFalse(accountService.isAccountExist(123L,account));
+        assertFalse(accountService.isAccountExist(CLIENT_ID,account));
     }
 
     @Test
     void testCountEmptyAccounts() {
-        HashSet<Account> accounts = new HashSet<>();
-        accounts.add(new Account(String.valueOf(456)));
-        accounts.add(new Account(String.valueOf(789)));
 
         when((accountRepository.getAllAccountsByClientId(null))).thenReturn(accounts);
 
-        assertEquals(2,accountService.countEmptyAccounts());
+        assertEquals(accounts.size(),accountService.countEmptyAccounts());
     }
 }

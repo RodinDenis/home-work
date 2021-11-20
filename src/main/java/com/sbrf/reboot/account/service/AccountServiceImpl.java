@@ -17,13 +17,11 @@ public class AccountServiceImpl implements AccountService {
      */
     public boolean isAccountExist(Long id, Account account) {
         HashSet<Account> clientAccounts = accountRepository.getAllAccountsByClientId(id);
-        for (Account accountIterator : clientAccounts) {
-            System.out.println(accountIterator.toString());
-            if (accountIterator.equals(account)) {
-                return true;
-            }
+        if(clientAccounts.contains(account)) {
+            return true;
         }
-        return false;
+        else
+            return false;
     }
 
     /**
