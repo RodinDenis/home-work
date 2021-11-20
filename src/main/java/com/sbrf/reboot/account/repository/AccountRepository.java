@@ -10,7 +10,7 @@ public class AccountRepository {
     /**
      * Карта существующих аккаунтов по клиентам
      */
-    private HashMap<Long, HashSet> clientAccounts;
+    private HashMap<Long, HashSet<Account>> clientAccounts;
     /**
      * Сиквенс для идентификаторов (так как предполягается удаление, не могу считать размер множества для получения нового Id
      * + подсчет размера может оказать влияние на производительность, если аккаунтов будет много)
@@ -56,7 +56,9 @@ public class AccountRepository {
      * @param account аккаунт для удаления
      */
     public void deleteAccount(Account account) {
-        Long clientId = account.getClientId();
-        clientAccounts.get(clientId).remove(account);
+        if (account != null) {
+            Long clientId = account.getClientId();
+            clientAccounts.get(clientId).remove(account);
+        }
     }
 }
