@@ -16,4 +16,8 @@ public class Account {
      */
     private Long clientId;
 
+    public Account (String id, Long client) {
+        this.id = id;
+        this.clientId = client;
+    }
 }

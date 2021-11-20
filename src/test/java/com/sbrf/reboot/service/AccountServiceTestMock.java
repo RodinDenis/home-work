@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-class AccountServiceTest {
+class AccountServiceTestMock {
 
     @Mock
     AccountRepository accountRepository;
@@ -31,39 +31,23 @@ class AccountServiceTest {
 
     @BeforeEach
     void setUp() {
+        accountRepository = Mockito.mock(AccountRepository.class);
         accountService = new AccountServiceImpl(accountRepository);
         account = new Account(ACCOUNT_ID);
-        accounts = new HashSet();
+        accounts = new HashSet<>();
         accounts.add(account);
     }
 
     @Test
     void bookExist() {
-
         when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
-
         assertTrue(accountService.isAccountExist(CLIENT_ID, account));
     }
 
     @Test
     void bookNotExist() {
-
         when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
-
         assertFalse(accountService.isAccountExist(CLIENT_ID, new Account("NEW_RANDOM_ACCOUNT")));
-    }
-
-    @Test
-    void testCreateAccount () {
-        Account account = accountService.createAccount(CLIENT_ID);
-        assertTrue(accountService.isAccountExist(CLIENT_ID,account));
-    }
-
-    @Test
-    void testDeleteAccount () {
-        Account account = accountService.createAccount(CLIENT_ID);
-        accountService.deleteAccount(account);
-        assertFalse(accountService.isAccountExist(CLIENT_ID,account));
     }
 
     @Test
