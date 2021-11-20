@@ -23,7 +23,7 @@ class AccountServiceTestMock {
     AccountService accountService;
 
     private final static String ACCOUNT_ID = "ACC1234NUM";
-    private final static Long CLIENT_ID = 1L;
+    private final static Integer CLIENT_ID = 1;
 
     Account account;
     HashSet<Account> accounts;

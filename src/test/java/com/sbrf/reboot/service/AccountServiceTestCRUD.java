@@ -16,7 +16,7 @@ public class AccountServiceTestCRUD {
 
     AccountService accountService;
 
-    private final static Long CLIENT_ID = 1L;
+    private final static Integer CLIENT_ID = 1;
 
     @BeforeEach
     void setUp() {

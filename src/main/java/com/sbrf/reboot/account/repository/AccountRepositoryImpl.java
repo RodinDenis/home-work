@@ -1,16 +1,17 @@
 package com.sbrf.reboot.account.repository;
 
 import com.sbrf.reboot.account.entity.Account;
+import com.sbrf.reboot.utils.JsonParser;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository{
     /**
      * Карта существующих аккаунтов по клиентам
      */
-    private HashMap<Long, HashSet<Account>> clientAccounts;
+    private HashMap<Integer, HashSet<Account>> clientAccounts;
     /**
      * Сиквенс для идентификаторов (так как предполягается удаление, не могу считать размер множества для получения нового Id
      * + подсчет размера может оказать влияние на производительность, если аккаунтов будет много)
@@ -22,6 +23,36 @@ public class AccountRepositoryImpl implements AccountRepository{
         sequenceId = 0;
     }
 
+    /**
+     * Инициализация репозитория на основе файла
+     * @param path Путь до файла с клиентами и их счетами
+     */
+    public AccountRepositoryImpl(String path) throws FileNotFoundException {
+        clientAccounts = new HashMap<>();
+        sequenceId = 0;
+        try(BufferedInputStream bufferedInputStream = new BufferedInputStream()) {
+            /* читаем файл в массив строк*/
+            List<String> readStrings = new ArrayList<>();
+
+            /* передаем набор строк на парсинг */
+            HashMap<Integer,Set<String>> parsedData = JsonParser.parseAccount(readStrings);
+
+            /* создаем новые счета и записываем их в нашу мапу */
+            for (Integer clientId : parsedData.keySet()) {
+                for (String accountId : parsedData.get(clientId)) {
+                    this.newAccount(accountId,clientId);
+                }
+            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("FILE DOESN'T EXIST!");
+            throw e;
+        }
+        finally {
+            sequenceId = clientAccounts.size();
+        }
+    }
+
     private int nextVal() {
         return ++sequenceId;
     }
@@ -31,16 +62,36 @@ public class AccountRepositoryImpl implements AccountRepository{
      * @param clientId идентификатор клиента
      * @return набор аккаунтов клиента
      */
-    public HashSet<Account> getAllAccountsByClientId (Long clientId) {
+    public HashSet<Account> getAllAccountsByClientId (Integer clientId) {
         return clientAccounts.get(clientId);
     }
+
     /**
-     * Создание аккаунта
+     * Создание аккаунта - для внешних вызовов
      * @param clientId идентификатор клиента, для которого создается параметр
      */
-    public Account newAccount(Long clientId) {
-        Account account = new Account((String.valueOf(this.nextVal())));
-        account.setClientId(clientId);
+    public Account newAccount(Integer clientId) {
+        Account account = new Account((String.valueOf(this.nextVal())),clientId);
+        this.addClientAccount(clientId,account);
+        return account;
+    }
+    /**
+     * Создание аккаунта - для внутренних вызовов
+     * @param accountId идентафикатор счета
+     * @param clientId идентификатор клиента
+     */
+    private Account newAccount(String accountId, Integer clientId) {
+        Account account = new Account(accountId,clientId);
+        this.addClientAccount(clientId,account);
+        return account;
+    }
+
+    /**
+     * Добавление нового счета пользователя в список его счетов
+     * @param clientId идентификатор клиента
+     * @param account счет для добавления в список
+     */
+    private void addClientAccount (Integer clientId,Account account) {
         if(clientAccounts.containsKey(clientId)) {
             clientAccounts.get(clientId).add(account);
         }
@@ -49,15 +100,15 @@ public class AccountRepositoryImpl implements AccountRepository{
             newClientAccounts.add(account);
             clientAccounts.put(clientId,newClientAccounts);
         }
-        return account;
     }
+
     /**
      * Удаление аккаунта
      * @param account аккаунт для удаления
      */
     public void deleteAccount(Account account) {
         if (account != null) {
-            Long clientId = account.getClientId();
+            Integer clientId = account.getClientId();
             clientAccounts.get(clientId).remove(account);
         }
     }

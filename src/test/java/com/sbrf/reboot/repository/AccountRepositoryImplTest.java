@@ -1,6 +1,8 @@
 package com.sbrf.reboot.repository;
 
-import com.sbrf.reboot.dto.Account;
+import com.sbrf.reboot.account.entity.Account;
+import com.sbrf.reboot.account.repository.AccountRepository;
+import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +29,7 @@ class AccountRepositoryImplTest {
             add("4-ACC1NUM");
         }};
 
-        allAccountsByClientId.forEach(e -> assertTrue(strings.contains(e.getNumber())));
+        allAccountsByClientId.forEach(e -> assertTrue(strings.contains(e.getId())));
     }
 
     @Test
@@ -35,14 +37,14 @@ class AccountRepositoryImplTest {
         accountRepository = new AccountRepositoryImpl("src/main/resources/Accounts.txt");
         Set<Account> allAccountsByClientId = accountRepository.getAllAccountsByClientId(1);
 
-        assertEquals(1, (int) allAccountsByClientId.stream().filter(e -> e.getNumber().equals("4-ACC1NUM")).count());
+        assertEquals(1, (int) allAccountsByClientId.stream().filter(e -> e.getId().equals("4-ACC1NUM")).count());
     }
 
     @Test
-    void failGetAllAccountsByClientId() {
+    void failGetAllAccountsByClientId() throws FileNotFoundException {
         accountRepository = new AccountRepositoryImpl("somePath");
         assertThrows(FileNotFoundException.class, () -> {
-            accountRepository.getAllAccountsByClientId(1L);
+            accountRepository.getAllAccountsByClientId(1);
         });
     }
 

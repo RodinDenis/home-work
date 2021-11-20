@@ -16,7 +16,7 @@ public class AccountServiceImpl implements AccountService {
      * @param account аккаунт
      * @return
      */
-    public boolean isAccountExist(Long id, Account account) {
+    public boolean isAccountExist(Integer id, Account account) {
         HashSet<Account> clientAccounts = accountRepositoryImpl.getAllAccountsByClientId(id);
         if(clientAccounts.contains(account))
             return true;
@@ -28,7 +28,8 @@ public class AccountServiceImpl implements AccountService {
      * Создание аккаунта
      * @param clientId идентификатор клиента
      */
-    public Account createAccount(Long clientId) {
+    public Account createAccount(Integer clientId) {
+
         return accountRepositoryImpl.newAccount(clientId);
     }
 

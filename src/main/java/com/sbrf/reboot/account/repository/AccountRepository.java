@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public interface AccountRepository {
-    HashSet<Account> getAllAccountsByClientId (Long clientId);
-    Account newAccount(Long clientId);
+    HashSet<Account> getAllAccountsByClientId (Integer clientId);
+    Account newAccount(Integer clientId);
     void deleteAccount(Account account);
 }
