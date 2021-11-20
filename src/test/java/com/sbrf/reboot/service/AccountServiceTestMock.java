@@ -2,6 +2,7 @@ package com.sbrf.reboot.service;
 
 import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.account.repository.AccountRepository;
+import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
 import com.sbrf.reboot.account.service.AccountService;
 import com.sbrf.reboot.account.service.AccountServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,16 +11,14 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 class AccountServiceTestMock {
 
     @Mock
-    AccountRepository accountRepository;
+    AccountRepository accountRepositoryImpl;
 
     AccountService accountService;
 
@@ -31,8 +30,8 @@ class AccountServiceTestMock {
 
     @BeforeEach
     void setUp() {
-        accountRepository = Mockito.mock(AccountRepository.class);
-        accountService = new AccountServiceImpl(accountRepository);
+        accountRepositoryImpl = Mockito.mock(AccountRepositoryImpl.class);
+        accountService = new AccountServiceImpl(accountRepositoryImpl);
         account = new Account(ACCOUNT_ID);
         accounts = new HashSet<>();
         accounts.add(account);
@@ -40,20 +39,20 @@ class AccountServiceTestMock {
 
     @Test
     void bookExist() {
-        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
+        when(accountRepositoryImpl.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
         assertTrue(accountService.isAccountExist(CLIENT_ID, account));
     }
 
     @Test
     void bookNotExist() {
-        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
+        when(accountRepositoryImpl.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
         assertFalse(accountService.isAccountExist(CLIENT_ID, new Account("NEW_RANDOM_ACCOUNT")));
     }
 
     @Test
     void testCountEmptyAccounts() {
 
-        when((accountRepository.getAllAccountsByClientId(null))).thenReturn(accounts);
+        when((accountRepositoryImpl.getAllAccountsByClientId(null))).thenReturn(accounts);
 
         assertEquals(accounts.size(),accountService.countEmptyAccounts());
     }

@@ -1,7 +1,7 @@
 package com.sbrf.reboot.service;
 
 import com.sbrf.reboot.account.entity.Account;
-import com.sbrf.reboot.account.repository.AccountRepository;
+import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
 import com.sbrf.reboot.account.service.AccountService;
 import com.sbrf.reboot.account.service.AccountServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class AccountServiceTestCRUD {
-    AccountRepository accountRepository;
+    AccountRepositoryImpl accountRepositoryImpl;
 
     AccountService accountService;
 
@@ -20,8 +20,8 @@ public class AccountServiceTestCRUD {
 
     @BeforeEach
     void setUp() {
-        accountRepository = new AccountRepository();
-        accountService = new AccountServiceImpl(accountRepository);
+        accountRepositoryImpl = new AccountRepositoryImpl();
+        accountService = new AccountServiceImpl(accountRepositoryImpl);
     }
 
     @Test
