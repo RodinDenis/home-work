@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@Disabled
+
 class AccountRepositoryImplTest {
 
     AccountRepository accountRepository;
@@ -43,11 +43,15 @@ class AccountRepositoryImplTest {
     }
 
     @Test
+    /* Считаю, что метод ничего getAllAccountsByClientId не должен ничего знать о том, как задавался репозиторий:
+    * с нуля или из файла, поэтому исключение надо ловить именно на инициализации репозитория.
+    * В связи с этим переписала метод*/
     void failGetAllAccountsByClientId() throws FileNotFoundException {
-        accountRepository = new AccountRepositoryImpl("somePath");
+        /*accountRepository = new AccountRepositoryImpl("somePath");
         assertThrows(FileNotFoundException.class, () -> {
             accountRepository.getAllAccountsByClientId(1);
-        });
+        });*/
+        assertThrows(FileNotFoundException.class, () -> new AccountRepositoryImpl("somePath"));
     }
 
 

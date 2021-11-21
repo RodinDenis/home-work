@@ -4,6 +4,8 @@ import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.utils.JsonParser;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository{
@@ -29,13 +31,19 @@ public class AccountRepositoryImpl implements AccountRepository{
     public AccountRepositoryImpl(String path) throws FileNotFoundException {
         clientAccounts = new HashMap<>();
         sequenceId = 0;
-        try(InputStream inputStream = new FileInputStream(new File(path));
-            BufferedInputStream bufferedInputStream  = new BufferedInputStream(inputStream)) {
+        try(InputStream inputStream = new FileInputStream(path);
+            BufferedReader bufferedReader  = new BufferedReader(new InputStreamReader(inputStream))) {
             /* читаем файл в массив строк*/
+
             List<String> readStrings = new ArrayList<>();
-            Byte [] bytes = new Byte[1024];
-            /*int i = bufferedInputStream.readAllBytes(bytes);*/
+            String newReadString = "";
+            while(bufferedReader.ready()) {
+                newReadString = bufferedReader.readLine();
+                readStrings.add(newReadString);
+            }
+
             /* передаем набор строк на парсинг */
+
             HashMap<Integer,Set<String>> parsedData = JsonParser.parseAccount(readStrings);
 
             /* создаем новые счета и записываем их в нашу мапу */
@@ -44,12 +52,9 @@ public class AccountRepositoryImpl implements AccountRepository{
                     this.newAccount(accountId,clientId);
                 }
             }
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("FILE DOESN'T EXIST!");
-            throw e;
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            throw  new FileNotFoundException();
         } finally {
             sequenceId = clientAccounts.size();
         }

@@ -25,8 +25,8 @@ public class JsonParser {
                 clientIterator++;
             }
             if (string.contains("number")) {
-                newAccount = string.substring(string.indexOf(":")+2).trim();
-                System.out.println("Номер счета: " + newAccount);
+                newAccount = string.substring(string.indexOf(":")+3).replace('"',' ').trim();
+                System.out.println("Номер счета: " + newAccount); /* тут кибербеза падает в обморок от вывода данных в лог */
                 accountIterator++;
             }
             if (string.contains("}")) {
