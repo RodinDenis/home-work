@@ -13,11 +13,13 @@ import org.mockito.Mockito;
 import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.when;
 
 class AccountServiceTestMock {
 
     @Mock
+
     AccountRepository accountRepositoryImpl;
 
     AccountService accountService;
@@ -39,7 +41,7 @@ class AccountServiceTestMock {
 
     @Test
     void bookExist() {
-        when(accountRepositoryImpl.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
+        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
         assertTrue(accountService.isAccountExist(CLIENT_ID, account));
     }
 
@@ -52,7 +54,9 @@ class AccountServiceTestMock {
     @Test
     void testCountEmptyAccounts() {
 
+
         when((accountRepositoryImpl.getAllAccountsByClientId(null))).thenReturn(accounts);
+
 
         assertEquals(accounts.size(),accountService.countEmptyAccounts());
     }

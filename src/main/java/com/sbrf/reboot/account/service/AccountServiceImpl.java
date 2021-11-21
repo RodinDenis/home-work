@@ -3,6 +3,7 @@ package com.sbrf.reboot.account.service;
 import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.account.repository.AccountRepository;
 import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
@@ -29,7 +30,6 @@ public class AccountServiceImpl implements AccountService {
      * @param clientId идентификатор клиента
      */
     public Account createAccount(Integer clientId) {
-
         return accountRepositoryImpl.newAccount(clientId);
     }
 
