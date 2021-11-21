@@ -4,8 +4,6 @@ import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.utils.JsonParser;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 public class AccountRepositoryImpl implements AccountRepository{
@@ -53,7 +51,6 @@ public class AccountRepositoryImpl implements AccountRepository{
                 }
             }
         } catch (IOException e) {
-            //e.printStackTrace();
             throw  new FileNotFoundException();
         } finally {
             sequenceId = clientAccounts.size();
