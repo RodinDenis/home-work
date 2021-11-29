@@ -29,7 +29,7 @@ class AccountUtilsTest {
 
     }
 
-    /*@Test
+    @Test
     void sortedByIdDate() {
         List<Account> accounts = new ArrayList<Account>() {{
             add(Account.builder().id("1").createDate(LocalDate.now().minusDays(4)).balance(BigDecimal.TEN).build());
@@ -44,5 +44,22 @@ class AccountUtilsTest {
         Assertions.assertEquals("2", accounts.get(1).getId());
         Assertions.assertEquals(LocalDate.now().minusDays(3), accounts.get(2).getCreateDate());
         Assertions.assertEquals(LocalDate.now().minusDays(1), accounts.get(3).getCreateDate());
-    }*/
+    }
+
+    @Test
+    void sortedByIdDateBalance() {
+        List<Account> accounts = new ArrayList<Account>() {{
+            add(Account.builder().id("1").createDate(LocalDate.now().minusDays(4)).balance(BigDecimal.TEN).build());
+            add(Account.builder().id("3").createDate(LocalDate.now().minusDays(3)).balance(BigDecimal.TEN).build());
+            add(Account.builder().id("3").createDate(LocalDate.now().minusDays(3)).balance(BigDecimal.ONE).build());
+            add(Account.builder().id("1").createDate(LocalDate.now()).balance(BigDecimal.TEN).build());
+        }};
+
+        AccountUtils.sortedByIdDateBalance(accounts);
+
+        Assertions.assertEquals(LocalDate.now().minusDays(4),accounts.get(0).getCreateDate());
+        Assertions.assertEquals(LocalDate.now(),accounts.get(1).getCreateDate());
+        Assertions.assertEquals(BigDecimal.ONE, accounts.get(2).getBalance());
+        Assertions.assertEquals(BigDecimal.TEN, accounts.get(3).getBalance());
+    }
 }
