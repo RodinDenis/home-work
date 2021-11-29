@@ -2,21 +2,23 @@ package com.sbrf.reboot.account.service;
 
 import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.account.repository.AccountRepository;
+import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
+
 import lombok.RequiredArgsConstructor;
 
 import java.util.HashSet;
 
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
-    private final AccountRepository accountRepository;
+    private final AccountRepository accountRepositoryImpl;
     /**
      * Проверка принадлежности аккаунта клиенту
      * @param id Идентификатор клиента
      * @param account аккаунт
      * @return
      */
-    public boolean isAccountExist(Long id, Account account) {
-        HashSet<Account> clientAccounts = accountRepository.getAllAccountsByClientId(id);
+    public boolean isAccountExist(Integer id, Account account) {
+        HashSet<Account> clientAccounts = accountRepositoryImpl.getAllAccountsByClientId(id);
         if(clientAccounts.contains(account))
             return true;
         else
@@ -27,8 +29,8 @@ public class AccountServiceImpl implements AccountService {
      * Создание аккаунта
      * @param clientId идентификатор клиента
      */
-    public Account createAccount(Long clientId) {
-        return accountRepository.newAccount(clientId);
+    public Account createAccount(Integer clientId) {
+        return accountRepositoryImpl.newAccount(clientId);
     }
 
     /**
@@ -36,7 +38,7 @@ public class AccountServiceImpl implements AccountService {
      * @param account аккаунт для удаления
      */
     public void deleteAccount(Account account) {
-        accountRepository.deleteAccount(account);
+        accountRepositoryImpl.deleteAccount(account);
     }
 
     /**
@@ -44,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
      * @return количество аккаунтов с незаполненными данными по клиенту
      */
     public int countEmptyAccounts() {
-        int count = accountRepository.getAllAccountsByClientId(null).size();
+        int count = accountRepositoryImpl.getAllAccountsByClientId(null).size();
         return count;
     }
 

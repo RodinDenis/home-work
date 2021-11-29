@@ -5,8 +5,8 @@ import com.sbrf.reboot.account.entity.Account;
 
 public interface AccountService {
 
-    Account createAccount(Long clientId);
+    Account createAccount(Integer clientId);
     void deleteAccount(Account account);
-    boolean isAccountExist(Long id, Account account) ;
+    boolean isAccountExist(Integer id, Account account) ;
     int countEmptyAccounts();
 }
