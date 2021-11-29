@@ -41,7 +41,7 @@ class AccountServiceTestMock {
 
     @Test
     void bookExist() {
-        when(accountRepository.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
+        when(accountRepositoryImpl.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
         assertTrue(accountService.isAccountExist(CLIENT_ID, account));
     }
 
