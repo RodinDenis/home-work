@@ -1,11 +1,11 @@
 package com.sbrf.reboot.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.sbrf.reboot.dto.Request;
 import com.sbrf.reboot.dto.Response;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 
 class JSONUtilsTest {
 
@@ -23,16 +23,18 @@ class JSONUtilsTest {
         Assertions.assertTrue(JSONUtils.toJSON(response).contains("statusCode"));
     }
 
+    @SneakyThrows
     @Test
-    void JSONtoRequest() throws JsonProcessingException {
+    void JSONtoRequest()  {
         Request request = JSONUtils.JSONtoRequest("{\"atmNumber\":\"ATM12345\"}");
         Assertions.assertEquals("ATM12345", request.getAtmNumber());
     }
 
+    @SneakyThrows
     @Test
-    void JSONtoResponse() throws JsonProcessingException {
-        Response request = JSONUtils.JSONtoResponse("{\"statusCode\":\"SUCCESS\"}");
-        Assertions.assertEquals("SUCCESS", request.getStatusCode());
+    void JSONtoResponse()  {
+        Response response = JSONUtils.JSONtoResponse("{\"statusCode\":\"SUCCESS\"}");
+        Assertions.assertEquals("SUCCESS", response.getStatusCode());
     }
 
 }
