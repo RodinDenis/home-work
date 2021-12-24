@@ -1,10 +1,9 @@
 package com.sbrf.reboot.utils;
 
 import com.sbrf.reboot.account.entity.Account;
-import com.sbrf.reboot.utils.comparator.AccountComparatorIdDate;
-import com.sbrf.reboot.utils.comparator.AccountComparatorIdDateBalance;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AccountUtils {
@@ -14,17 +13,27 @@ public class AccountUtils {
      * @return список счетов, отсортированный по id
      */
     public static List<Account> sortedById(List<Account> accounts) {
-        Collections.sort(accounts);
+        try {
+            Collections.sort(accounts);
+        } catch (NullPointerException npe) {
+            System.out.println("WARNING: В списке для сортировке обнаружен null-объект, список отсортирован не будет!");
+            throw npe;
+        }
         return accounts;
     }
     /**
      * Сортировка списка счетов по Id и дате создания
-     * @param accounts списко счетов для сортировки
+     * @param accounts список счетов для сортировки
      * @return список счетов, отсортированный по id и дате создания
      */
     public static List<Account> sortedByIdDate (List<Account> accounts) {
-        AccountComparatorIdDate comparator = new AccountComparatorIdDate();
+        Comparator<Account> comparator = getComparatorByIdDate();
+        try {
         Collections.sort(accounts,comparator);
+        } catch (NullPointerException npe) {
+            System.out.println("WARNING: В списке для сортировке обнаружен null-объект, список отсортирован не будет!");
+            throw npe;
+        }
         return accounts;
     }
 
@@ -34,8 +43,21 @@ public class AccountUtils {
      * @return отсортированный список счетов
      */
     public static List<Account> sortedByIdDateBalance (List<Account> accounts) {
-        AccountComparatorIdDateBalance comparator = new AccountComparatorIdDateBalance();
-        Collections.sort(accounts,comparator);
+        Comparator <Account> comparator = getComparatorByIdDateBalance();
+        try {
+            Collections.sort(accounts,comparator);
+        } catch (NullPointerException npe) {
+            System.out.println("WARNING: В списке для сортировке обнаружен null-объект, список отсортирован не будет!");
+            throw npe;
+        }
         return accounts;
+    }
+
+    private static Comparator<Account> getComparatorByIdDate () {
+        return Comparator.comparing(Account::getId).thenComparing(Account::getCreateDate);
+    }
+
+    private static Comparator<Account> getComparatorByIdDateBalance () {
+        return Comparator.comparing(Account::getId).thenComparing(Account::getCreateDate).thenComparing(Account::getBalance);
     }
 }

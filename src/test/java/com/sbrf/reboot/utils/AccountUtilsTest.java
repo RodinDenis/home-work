@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class AccountUtilsTest {
 
     @Test
@@ -27,6 +29,16 @@ class AccountUtilsTest {
         Assertions.assertEquals("3", accounts.get(2).getId());
         Assertions.assertEquals("3", accounts.get(3).getId());
 
+    }
+
+    @Test
+    void sortedByIdWithNull() {
+        List<Account> accounts = new ArrayList<Account>() {{
+            add(Account.builder().id("3").createDate(LocalDate.now()).balance(BigDecimal.TEN).build());
+            add(null);
+        }};
+
+        assertThrows(NullPointerException.class,() -> AccountUtils.sortedById(accounts));
     }
 
     @Test
