@@ -75,7 +75,7 @@ public class AccountRepositoryImpl implements AccountRepository{
      * @param clientId идентификатор клиента, для которого создается параметр
      */
     public Account newAccount(Integer clientId) {
-        Account account = new Account((String.valueOf(this.nextVal())),clientId);
+        Account account = Account.createAccountWithoutInfo(String.valueOf(this.nextVal()),clientId);
         this.addClientAccount(clientId,account);
         return account;
     }
@@ -85,7 +85,7 @@ public class AccountRepositoryImpl implements AccountRepository{
      * @param clientId идентификатор клиента
      */
     private Account newAccount(String accountId, Integer clientId) {
-        Account account = new Account(accountId,clientId);
+        Account account = Account.createAccountWithoutInfo(accountId,clientId);
         this.addClientAccount(clientId,account);
         return account;
     }

@@ -7,8 +7,6 @@ import java.time.LocalDate;
 
 @Data
 @Builder
-@RequiredArgsConstructor
-@AllArgsConstructor
 public class Account implements Comparable<Account> {
     /**
      * Идентификатор аккаунта
@@ -39,4 +37,25 @@ public class Account implements Comparable<Account> {
     public int compareTo(@NonNull Account object) {
         return this.id.compareTo(object.getId());
     }
+
+    private Account (String id, Integer clientId ) {
+        this.id = id;
+        this.clientId = clientId;
+    }
+
+    private Account (String id, Integer clientId , BigDecimal balance, LocalDate date) {
+        this.id = id;
+        this.clientId = clientId;
+        this.balance = balance;
+        this.createDate = date;
+    }
+
+    public static Account createAccountWithoutInfo (String id, Integer clientId ) {
+        return new Account(id,clientId);
+    }
+
+    public static Account createAccountWithInfo (String id, Integer clientId,  BigDecimal balance, LocalDate date) {
+        return new Account(id,clientId,balance,date);
+    }
+
 }

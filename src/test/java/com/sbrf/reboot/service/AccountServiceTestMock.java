@@ -34,7 +34,7 @@ class AccountServiceTestMock {
     void setUp() {
         accountRepositoryImpl = Mockito.mock(AccountRepositoryImpl.class);
         accountService = new AccountServiceImpl(accountRepositoryImpl);
-        account = new Account(ACCOUNT_ID,CLIENT_ID);
+        account = Account.createAccountWithoutInfo(ACCOUNT_ID,CLIENT_ID);
         accounts = new HashSet<>();
         accounts.add(account);
     }
@@ -48,7 +48,7 @@ class AccountServiceTestMock {
     @Test
     void bookNotExist() {
         when(accountRepositoryImpl.getAllAccountsByClientId(CLIENT_ID)).thenReturn(accounts);
-        assertFalse(accountService.isAccountExist(CLIENT_ID, new Account("NEW_RANDOM_ACCOUNT",0)));
+        assertFalse(accountService.isAccountExist(CLIENT_ID, Account.createAccountWithoutInfo("NEW_RANDOM_ACCOUNT",0)));
     }
 
     @Test
