@@ -1,11 +1,11 @@
-package com.sbrf.reboot;
+package com.sbrf.reboot.calculator;
 
 public class Calculator {
 
     /**
      * Метод для подсчета наибольшего общего делителя двух чисел
-     * @param a целочисленное число.
-     * @param b целочисленное число.
+     * @param a Целочисленное число.
+     * @param b Целочисленное число.
      * @return Наибольший общий делитель чисел a и b.
      */
     public int getGCD(int a, int b){
