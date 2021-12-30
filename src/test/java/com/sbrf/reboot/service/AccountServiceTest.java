@@ -56,6 +56,35 @@ class AccountServiceTest {
         assertFalse(accountService.isClientHasContract(clientId, contractNumber));
     }
 
+    @SneakyThrows
+    @Test
+    void addNewContract() {
+        Set<Long> accounts = new HashSet();
+        accounts.add(17L);
+
+        long clientId = 3L;
+        long contractNumber = 21L;
+
+
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+
+        assertTrue(accountService.addContract(clientId, contractNumber));
+    }
+
+    @SneakyThrows
+    @Test
+    void addExistingContract() {
+        Set<Long> accounts = new HashSet();
+        accounts.add(17L);
+
+        long clientId = 3L;
+        long contractNumber = 17L;
+
+        when(accountRepository.getAllAccountsByClientId(clientId)).thenReturn(accounts);
+
+        assertFalse(accountService.addContract(clientId, contractNumber));
+    }
+
     @Test
     void repositoryHasTreeMethods() {
         assertEquals(2, AccountRepository.class.getMethods().length);
