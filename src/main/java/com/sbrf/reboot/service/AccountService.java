@@ -22,7 +22,7 @@ public class AccountService{
 
     public boolean addContract(long clientId, long contractNumber) {
         if(!isClientHasContract(clientId, contractNumber)){
-            ar.addAccountToClient(clientId);
+            ar.addAccountToClient(clientId, contractNumber);
             return true;
         }
         return false;
