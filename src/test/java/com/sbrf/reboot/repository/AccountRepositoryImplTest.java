@@ -3,15 +3,11 @@ package com.sbrf.reboot.repository;
 import com.sbrf.reboot.account.entity.Account;
 import com.sbrf.reboot.account.repository.AccountRepository;
 import com.sbrf.reboot.account.repository.AccountRepositoryImpl;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class AccountRepositoryImplTest {
 
     AccountRepository accountRepository;
-
 
     @Test
     void onlyPersonalAccounts() throws FileNotFoundException {
