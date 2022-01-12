@@ -1,6 +1,6 @@
 package com.sbrf.reboot.repository;
 
-import com.sbrf.reboot.repository.impl.FileAccountRepository;
+import com.sbrf.reboot.repository.FileAccountRepository;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -38,10 +38,15 @@ class FileAccountRepositoryTest {
 
         String filePath = "somePath";
 
-        accountRepository = new FileAccountRepository(filePath);
+        FileNotFoundException fnfe = null;
 
-        assertThrows(FileNotFoundException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
-    }
+        try {
+            accountRepository = new FileAccountRepository(filePath);
+        } catch (FileNotFoundException e) {
+            assertThrows(NullPointerException.class, () -> accountRepository.getAllAccountsByClientId(clientId));
+        }
+
+        }
 
 
 }
