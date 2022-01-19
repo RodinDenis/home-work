@@ -30,7 +30,7 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void contractExist() {
-        Set<Long> accounts = new HashSet();
+        Set<Long> accounts = new HashSet<>();
         accounts.add(111L);
 
         long clientId = 1L;
@@ -45,7 +45,7 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void contractNotExist() {
-        Set<Long> accounts = new HashSet();
+        Set<Long> accounts = new HashSet<>();
         accounts.add(222L);
 
         long clientId = 1L;
@@ -59,7 +59,7 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void addNewContract() {
-        Set<Long> accounts = new HashSet();
+        Set<Long> accounts = new HashSet<>();
         accounts.add(17L);
 
         long clientId = 3L;
@@ -74,7 +74,7 @@ class AccountServiceTest {
     @SneakyThrows
     @Test
     void addExistingContract() {
-        Set<Long> accounts = new HashSet();
+        Set<Long> accounts = new HashSet<>();
         accounts.add(17L);
 
         long clientId = 3L;
