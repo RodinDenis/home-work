@@ -35,7 +35,6 @@ public class Main {
         System.out.println("Время старта последовательного подсчета: "  + LocalTime.now());
         BigDecimal sum = BigDecimal.ZERO;
         Set<Account> goodAccounts = new HashSet<>();
-        //Set<Account> accounts = repository.getCustomersStream().filter(client-> client.getAge() < ageFrom && client.getAge() < ageTo && client.getAccounts().stream().filter(acc -> acc.getCreateDate().isAfter(dateFrom) && acc.getCreateDate().isBefore(dateTo)).collect(Collectors.toList()).);
         for (Client client : repository.getCustomersStream().collect(Collectors.toList())) {
             if (client.getAge() > ageFrom && client.getAge() < ageTo) {
                 goodAccounts.addAll(client.getAccounts().stream().filter(acc -> acc.getCreateDate().isAfter(dateFrom) && acc.getCreateDate().isBefore(dateTo)).collect(Collectors.toSet()));

@@ -41,7 +41,7 @@ public class MainReport {
     };
 
     public static BigDecimal getTotalsWithReact (Stream<Client> customers) {
-        return BigDecimal.TEN;
+        return BigDecimal.ZERO;
     }
 
     private static CompletableFuture<Set<Account>> getBalanceSubFlow (Client client, LocalDate dateFrom, LocalDate dateTo, int ageFrom, int ageTo) {
