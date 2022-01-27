@@ -151,5 +151,87 @@ public class EqualsHashCodeTest {
 
   }
 
+  /**
+   * Свой тест: проверка на симметричность метода Equals.
+   * car1 == car2 => car2 == car1
+   */
+  @Test
+  public void symmetryEqualsTest() {
+    Car car1 = new Car();
+    car1.model = "Mercedes";
+    car1.color = "black";
+    car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car1.maxSpeed = 10;
+
+    Car car2 = new Car();
+    car2.model = "Mercedes";
+    car2.color = "black";
+    car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car2.maxSpeed = 10;
+
+    Assertions.assertEquals(car1.equals(car2), car2.equals(car1));
+  }
+
+  /**
+   * Свой тест: проверка на симметричность НЕравенства.
+   * car1 != car2 => car2 != car1
+   */
+  @Test
+  public void unSymmetryHashCodeTest(){
+    Car car1 = new Car();
+    car1.model = "Audi";
+    car1.color = "gold";
+    car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car1.maxSpeed = 10;
+
+    Car car2 = new Car();
+    car2.model = "Audi";
+    car2.color = "white";
+    car2.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car2.maxSpeed = 10;
+
+    Assertions.assertEquals(car1.equals(car2), car2.equals(car1));
+  }
+
+  /**
+   * Свой тест: сравнение с null должно всегда возвращать false.
+   * car1 != car2 => car2 != car1
+   */
+  @Test
+  public void compareWithNullTest(){
+    Car car1 = new Car();
+    car1.model = "BMW";
+    car1.color = "black";
+    car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car1.maxSpeed = 100;
+
+    Car car2 = null;
+
+    Assertions.assertFalse(car1.equals(car2));
+  }
+
+  /**
+   * Свой тест: проверка на то, не меняется ли значение hashcode у объекта,
+   * если его поля не меняются.
+   * То есть hashCode() должен всегда возвращать одно и то же значние, если
+   * состояние объекта не меняется.
+   */
+  @Test
+  public void hashCodeIsConstant(){
+    Car car1 = new Car();
+    car1.model = "BMW";
+    car1.color = "black";
+    car1.releaseDate = new GregorianCalendar(2020, 0, 25);
+    car1.maxSpeed = 100;
+
+    int initHash = car1.hashCode();
+    int finalHash = 0;
+
+    for(int i = 0; i < 5; i++){
+      finalHash = car1.hashCode();
+    }
+
+    Assertions.assertEquals(initHash, finalHash);
+  }
 
 }
