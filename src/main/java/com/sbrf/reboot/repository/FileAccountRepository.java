@@ -47,7 +47,7 @@ public class FileAccountRepository  implements AccountRepository {
 
         String line = "";
         char[] letters;
-        Set<Long> accounts = new HashSet();
+        Set<Long> accounts = new HashSet<>();
         String tempIdString = "";
         String tempNumberString = "";
         long tempId = 0L;
