@@ -1,6 +1,7 @@
 package com.sbrf.reboot.functionalinterface;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class FunctionalInterfaceTest {
 
@@ -32,7 +34,14 @@ public class FunctionalInterfaceTest {
             if (someObjects.isEmpty())
                 throw new IllegalArgumentException("The list is empty");
 
-            //add code here...
+            result = someObjects.stream().map(i-> {
+                try {
+                    return objectToJsonFunction.applyAsJson(i);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }).collect(Collectors.toList());
 
             return result;
         }
@@ -43,8 +52,14 @@ public class FunctionalInterfaceTest {
         ListConverter<SomeObject> ListConverter = new ListConverter<>();
 
         ObjectToJsonFunction<SomeObject> objectToJsonFunction = someObject -> {
-            //add code here...
-            return null;
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonString = null;
+            try {
+                jsonString = mapper.writeValueAsString(someObject);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            return jsonString;
         };
 
         List<String> strings = ListConverter.toJsonsList(
