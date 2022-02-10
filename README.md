@@ -1,1 +1,3 @@
-# Sber Java school's homework repository
+# Sber Java school
+## Dzhaparov Emirkhan
+## homework repository
