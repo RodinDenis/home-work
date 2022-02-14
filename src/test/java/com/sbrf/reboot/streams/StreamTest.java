@@ -74,7 +74,7 @@ public class StreamTest {
         );
 
         List<Book> actualBooks = books.stream().filter(i -> i.author.equals("Maria")).sorted(Comparator.comparing(i -> i.price)).collect(Collectors.toList());
-        // Collections.sort(actualBooks, Comparator.comparing(i -> i.price));
+
         assertEquals(expectedBooks, actualBooks);
 
     }
@@ -90,17 +90,10 @@ public class StreamTest {
 
         List<String> expectedContracts = Arrays.asList("M-NCC-1-CH", "M-NCC-2-US", "M-NCC-3-NH");
 
-        List<String> actualContracts = contracts.stream().map(i -> addPref(i)).collect(Collectors.toList());
+        List<String> actualContracts = contracts.stream().map(i -> "M-" + i).collect(Collectors.toList());
 
         assertEquals(expectedContracts, actualContracts);
 
     }
 
-    public String addPref(String s) {
-        StringBuffer sb = new StringBuffer(s);
-        sb.insert(0, "M-");
-
-        return sb.toString();
-
-    }
 }

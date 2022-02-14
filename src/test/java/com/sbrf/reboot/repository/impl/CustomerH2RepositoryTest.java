@@ -28,6 +28,14 @@ class CustomerH2RepositoryTest {
     }
 
     @Test
+    void customerIsExist() {
+
+        boolean isCustomerExist = customerRepository.customerIsExist("Maria");
+
+        assertTrue(isCustomerExist);
+    }
+
+    @Test
     void createCustomer() {
 
         boolean mariaCreated = customerRepository.createCustomer("Maria", "maria98@ya.ru");
