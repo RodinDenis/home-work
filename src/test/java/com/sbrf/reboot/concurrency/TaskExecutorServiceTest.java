@@ -21,6 +21,7 @@ public class TaskExecutorServiceTest {
 
         TaskExecutorService taskExecutorService = new TaskExecutorService(2);
 
+
         doAnswer((e -> {
             latch.countDown();
             return null;
@@ -34,5 +35,7 @@ public class TaskExecutorServiceTest {
         verify(task, times(2)).run();
 
         taskExecutorService.shutdown();
+
+
     }
 }
